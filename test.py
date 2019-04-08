@@ -69,13 +69,11 @@
 #         print(1)
 
 # 在函数中改变list的值
+# list1 = [1,2,3]
+# def change():
+#     def chenge1():
+#         list1.append(4)
+#     chenge1()
 
-list1 = [1,2,3]
-def change():
-    def chenge1():
-        list1.append(4)
-    chenge1()
-
-change()
-print(list1)
-    
+# change()
+# print(list1)  
