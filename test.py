@@ -77,3 +77,26 @@
 
 # change()
 # print(list1)  
+
+
+# json 格式测试
+# import json
+
+# f = open('./test.json', 'w', encoding='utf-8')
+# data = {
+#     "姓名": "赵六",
+#     "年龄": 25,
+#     "职业": "程序员",
+#     "工资": 100
+# }
+# json.dump(data, f, ensure_ascii=False)
+# f.close()
+
+# f = open('./test.json', 'r', encoding='utf-8')
+# t = json.load(f)
+# print(t)
+
+# import json
+# f = open('./test.json', 'r', encoding='utf-8')
+# t = json.load(f)
+# print(t)
