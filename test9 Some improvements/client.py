@@ -1,8 +1,11 @@
 from flask import Flask, request
 import threading
 import zmq
+from topic import Topic
 
-topic_list = []
+# topic_list = []
+file_path = './data/client_topic.json'
+topic_list = Topic(file_path)
 
 
 def rest_fun():
@@ -15,11 +18,11 @@ def rest_fun():
         if request.method == 'POST':
             topic = request.form['md5']
 
-            if topic not in topic_list:
-                topic_list.append(topic)
+            if topic not in topic_list.get_topic_list():
+                topic_list.update_top_list(topic)
                 host = request.form['host'] + ":" + request.form['port']
                 # 实例一个connect对象 调用他的connect_server_by_zmqSUB()函数来通过zmq订阅到server发送的数据
-                message = connect(host, topic).connect_server_by_zmqSUB()
+                message = zmq_fun(host, topic)
                 # print(message)
                 print("获取到的值: \ntopic: {} \ndata: {}".format(
                     message[0]["md5"], message[0]["data"]))
@@ -27,14 +30,14 @@ def rest_fun():
             else:
                 host = request.form['host'] + ":" + request.form['port']
                 # 实例一个connect对象 调用他的connect_server_by_zmqSUB()函数来通过zmq订阅到server发送的数据
-                message = connect(host, topic).connect_server_by_zmqSUB()
+                message = zmq_fun(host, topic)
                 # print(message)
                 print("获取到的值: \ntopic: {} \ndata: {}".format(
                     message[0]["md5"], message[0]["data"]))
                 return "已存在的topic"
 
     if __name__ == '__main__':
-        app.run(debug=True, port=5000)
+        app.run(debug=False, port=5000)
 
 
 def zmq_fun(host, topic):
@@ -53,7 +56,7 @@ def zmq_fun(host, topic):
     return [{"md5": md5, "data": data}]
 
 
-# 连接类
+# 连接类 暂时不用
 class connect():
     def __init__(self, host, topic):
         self.host = host
@@ -65,4 +68,3 @@ class connect():
 
 
 rest_fun()
-# zmq_fun("tcp://localhost:5556", "s1s1ws1d2e131dwd2e")

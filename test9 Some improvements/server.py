@@ -6,22 +6,20 @@ import hashlib
 import time
 import zmq
 
-topic_list = Topic()
+topic_list = Topic('./data/server_topic.json')
 
 
 def zmq_fun():
-    try:
-        context = zmq.Context()
-        socket = context.socket(zmq.PUB)
-        socket.bind("tcp://*:5556")
-    except zmq.error.ZMQError:
-        pass
-
+    context = zmq.Context()
+    socket = context.socket(zmq.PUB)
+    socket.bind("tcp://*:5556")
     while True:
         topic = topic_list.get_topic_list()
+        time.sleep(1)
+        # print(topic)
         for i in range(len(topic)):
             # 通过zmq不停地发送 主题-数据
-            time.sleep(1)
+            # time.sleep(1)
             socket.send_string("{} {}".format(topic[i]["md5"],
                                               topic[i]["data"]))
 
@@ -59,7 +57,7 @@ def rest_fun():
             return md5str
 
     if __name__ == '__main__':
-        app.run(debug=True, port=5002)
+        app.run(debug=False, port=5002)
 
 
 # 生成md5的函数

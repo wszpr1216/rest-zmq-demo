@@ -46,6 +46,8 @@ def zmq_fun(host, topic):
 
     string = socket.recv_string()
     md5, data = string.split()
+    print(md5)
+    print(data)
 
     #return [{"md5": reply[0]["md5"], "data": reply[0]["data"]}]
     return [{"md5": md5, "data": data}]
